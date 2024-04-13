@@ -1,5 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
+import AuthSessionProvider from "@/components/Providers/sessionProvider";
+import AlertContextProvider from "@/components/Providers/alertContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,7 +13,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <AuthSessionProvider>
+        <body className={inter.className}>
+          <AlertContextProvider>{children}</AlertContextProvider>
+        </body>
+      </AuthSessionProvider>
     </html>
   );
 }
