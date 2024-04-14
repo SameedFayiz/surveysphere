@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import wrapText from "@/utils/wrapText";
 import ToolBar from "@/components/toolBar";
@@ -19,14 +19,12 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { RefreshOutlined } from "@mui/icons-material";
-import { AlertContext } from "@/components/Providers/alertContext";
 import SurveyCard from "./surveyCard";
-import { revalidatePath } from "next/cache";
+import Link from "next/link";
 
-const DataDisplay = ({ data, setData, dataLoading, revalidateData }) => {
+const DataDisplay = ({ data, setData, getData, dataLoading, setAlert }) => {
   const mediumWidth = useMediaQuery("(min-width:768px)");
   const router = useRouter();
-  const [myAlert, showAlert, hideAlert] = useContext(AlertContext);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [spin, setSpin] = useState(false);
   const [open, setOpen] = useState(false);
@@ -61,7 +59,8 @@ const DataDisplay = ({ data, setData, dataLoading, revalidateData }) => {
               e.stopPropagation();
               setOpen(row._id);
             }}
-            className="p-2 rounded-md bg-red-600 text-white hover:bg-red-700 hover:scale-105 transition-all duration-200 ease-in-out disabled:bg-red-400 disabled:hover:scale-100 disabled:pointer-events-none"
+            className="p-2 rounded-md bg-red-600 text-white hover:bg-red-700 hover:scale-105 transition-all duration-200
+             ease-in-out disabled:bg-red-400 disabled:hover:scale-100 disabled:pointer-events-none"
           >
             Delete
           </button>
@@ -87,17 +86,25 @@ const DataDisplay = ({ data, setData, dataLoading, revalidateData }) => {
       if (ack.error) {
         throw ack;
       }
-      showAlert(false, "Survey successfully deleted.");
-      let tmp2 = data;
-      tmp2 = tmp2.filter((i) => {
-        return i._id != id;
+      setAlert({
+        display: true,
+        error: false,
+        message: "Survey successfully deleted",
       });
-      setData([...tmp2]);
+      getData();
     } catch (error) {
-      showAlert(true, "Error deleting survey.");
+      setAlert({
+        display: true,
+        error: true,
+        message: "Error deleting survey",
+      });
     }
     setTimeout(() => {
-      hideAlert();
+      setAlert({
+        display: false,
+        error: false,
+        message: "",
+      });
     }, 5000);
     setDeleteLoading(false);
   };
@@ -145,21 +152,19 @@ const DataDisplay = ({ data, setData, dataLoading, revalidateData }) => {
             className={`hidden md:block text-blue-600 dark:text-white hover:cursor-pointer transition-all duration-700 ${spin}`}
             onClick={async (e) => {
               setSpin("animate-spin");
-              revalidateData();
+              getData();
               setTimeout(() => {
                 setSpin("");
               }, 2000);
             }}
           />
-          <button
-            className="w-full sm:w-40 p-2 text-sm md:text-base bg-green-600 text-white hover:bg-green-700 hover:scale-105 transition-all duration-200
+          <Link
+            className="flex justify-center items-center w-full sm:w-40 p-2 text-sm md:text-base bg-green-600 text-white hover:bg-green-700 hover:scale-105 transition-all duration-200
                    ease-in-out rounded-lg uppercase"
-            onClick={() => {
-              router.push("/Creators/Dashboard/CreateSurvey");
-            }}
+            href={"/Creators/Dashboard/CreateSurvey"}
           >
             Create survey
-          </button>
+          </Link>
         </div>
       </div>
       {mediumWidth ? (

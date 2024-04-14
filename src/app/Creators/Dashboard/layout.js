@@ -11,9 +11,11 @@ export default function DashboardLayout({ children }) {
   const [darkMode, setDarkMode] = useState(false);
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const router = useRouter();
+
   useEffect(() => {
     setDarkMode(prefersDarkMode);
   }, [prefersDarkMode]);
+
   return (
     <>
       <DataContextProvider>

@@ -1,17 +1,20 @@
 "use client";
+import { useCallback, useContext, useEffect, useState } from "react";
 import DataDisplay from "@/components/dataDisplay";
-import { Alert } from "@mui/material";
-import { AlertContext } from "@/components/Providers/alertContext";
 import { DataContext } from "@/components/Providers/dataContext";
-import { useContext, useEffect, useState } from "react";
+import AlertBox from "@/components/alertBox";
 
 // Administrative controls page
 export default function Page() {
   const [data, setData] = useContext(DataContext);
-  const [dataLoading, setDataLoading] = useState(false);
-  const [myAlert, showAlert, hideAlert] = useContext(AlertContext);
+  const [dataLoading, setDataLoading] = useState(true);
+  const [alert, setAlert] = useState({
+    display: false,
+    error: false,
+    message: "",
+  });
 
-  const getData = async () => {
+  const getData = useCallback(async () => {
     try {
       setDataLoading(true);
       let myRequest = await fetch("/api/surveys", {
@@ -29,38 +32,36 @@ export default function Page() {
       setData(myRequest.surveys);
     } catch (error) {
       setData([]);
-      showAlert(
-        true,
-        error.message === "Failed to fetch"
-          ? "Connection error"
-          : "Some error happened fetching data. Reload page"
-      );
-      setTimeout(() => {
-        hideAlert();
-      }, 6000);
+
+      setAlert({
+        display: true,
+        error: true,
+        message:
+          error.message === "Failed to fetch"
+            ? "Connection error"
+            : "Some error happened fetching data. Reload page",
+      });
+      // setTimeout(() => {
+      //   setAlert({
+      //     display: false,
+      //     error: false,
+      //     message: "",
+      //   });
+      // }, 5000);
     }
     setDataLoading(false);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
-    if (!data) {
-      getData();
-    }
-    window.addEventListener("load", getData);
-    return () => {
-      window.removeEventListener("load", getData);
-    };
-  });
+    getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getData]);
 
   return (
     <>
-      {myAlert.display ? (
-        <Alert
-          className="absolute top-10 right-1 md:right-10 flex items-center animate-bounce tracking-tighter md:tracking-normal text-xs md:text-lg max-w-[85%]"
-          severity={myAlert.error ? "error" : "success"}
-        >
-          {myAlert.message}
-        </Alert>
+      {alert.display ? (
+        <AlertBox error={alert.error}>{alert.message}</AlertBox>
       ) : null}
       <main className="flex flex-col w-full bg-white dark:bg-slate-600">
         <section className="flex w-full py-5 md:py-10 bg-gray-700 items-center px-4 md:px-10">
@@ -72,7 +73,8 @@ export default function Page() {
           data={data}
           setData={setData}
           dataLoading={dataLoading}
-          revalidateData={getData}
+          getData={getData}
+          setAlert={setAlert}
         />
       </main>
     </>

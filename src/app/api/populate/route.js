@@ -523,26 +523,31 @@ export async function POST(req, res) {
     },
   ];
   const { start, end } = await req.json();
-  data.slice(start ? start : 0, end).forEach(async (element) => {
-    try {
-      let sendReq = await fetch("http://localhost:3000/api/survey", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(element),
-      });
-      sendReq = await sendReq.json();
-      console.log(sendReq.survey._id);
-      if (sendReq.error) {
-        throw sendReq;
-      }
-      return NextResponse.json({ error: false }, { status: 200 });
-    } catch (error) {
-      return NextResponse.json(
-        { error: true, errorBody: error },
-        { status: 200 }
-      );
-    }
-  });
+  try {
+    await Promise.all(
+      data.slice(start ? start : 0, end).map(async (element) => {
+        let sendReq = await fetch("http://localhost:3000/api/survey", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(element),
+        });
+        sendReq = await sendReq.json();
+        console.log(sendReq.survey._id);
+        if (sendReq.error) {
+          throw sendReq;
+        }
+      })
+    );
+    return NextResponse.json(
+      { error: false, message: "Surveys created" },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { error: true, message: "Internal server error" },
+      { status: 500 }
+    );
+  }
 }

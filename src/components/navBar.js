@@ -102,7 +102,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
   } else {
     return (
       <>
-        <div className="fixed top-3 right-3 z-50 bg-slate-400 rounded-full shadow-md shadow-white">
+        <div className="fixed top-3 right-3 z-40 bg-slate-400 rounded-full shadow-md shadow-white">
           <DarkModeButton
             checked={darkMode}
             onChange={() => {

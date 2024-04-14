@@ -23,6 +23,10 @@ const questionSchema = new Schema({
       return this.type === "scale";
     },
   },
+  answers: {
+    type: SchemaTypes.Array,
+    required: true,
+  },
 });
 
 const surveySchema = new Schema(
@@ -38,7 +42,5 @@ const surveySchema = new Schema(
   },
   { timestamps: true }
 );
-
-// const question = model("Questions", questionSchema);
 
 export default models.Surveys || model("Surveys", surveySchema);

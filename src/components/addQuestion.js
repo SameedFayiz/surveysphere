@@ -32,9 +32,6 @@ const ScaleRangeComponent = (props) => {
       <div className="flex gap-4">
         <TextField
           disabled
-          // inputProps={{
-          //   sx: { WebkitTextFillColor: "white !important" },
-          // }}
           className="dark:[&_*]:!text-white dark:[&_input]:![-webkit-text-fill-color:white] dark:[&_fieldset]:!border-gray-500
            dark:[&_fieldset]:hover:!border-black dark:[&>div.Mui-focused_fieldset]:!border-white w-56
             [&_fieldset]:transition-all [&_fieldset]:duration-300"

@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import { useForm, Controller } from "react-hook-form";
@@ -12,7 +12,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import AddQuestionComponent from "@/components/addQuestion";
-import { AlertContext } from "@/components/Providers/alertContext";
+import AlertBox from "@/components/alertBox";
 
 export default function Page() {
   const mediumWidth = useMediaQuery("(min-width:768px)");
@@ -42,7 +42,12 @@ export default function Page() {
   // Switch for displaying an error while submitting form without adding questions
   const [noValid, setNoValid] = useState(false);
   // State for displaying an alert
-  const [myAlert, showAlert, hideAlert] = useContext(AlertContext);
+  const [alert, setAlert] = useState({
+    display: false,
+    error: false,
+    message: "",
+  });
+
   // Loading state
   const [loading, setLoading] = useState(false);
   // Scroll to top of the page
@@ -122,25 +127,32 @@ export default function Page() {
         if (sendReq.error) {
           throw sendReq;
         }
-        showAlert(
-          false,
-          "Survey successfully created. Redirecting to Homepage"
-        );
+        setAlert({
+          display: true,
+          error: false,
+          message: "Survey successfully created. Redirecting to Homepage",
+        });
         setTimeout(() => {
           router.push("/Creators/Dashboard");
         }, 5000);
       } catch (error) {
-        showAlert(
-          true,
-          error.message === "Failed to fetch"
-            ? "Connection error"
-            : "Error creating survey"
-        );
+        setAlert({
+          display: true,
+          error: true,
+          message:
+            error.message === "Failed to fetch"
+              ? "Connection error"
+              : "Error creating survey",
+        });
       } finally {
         setScrollToTop(true);
         setLoading(false);
         setTimeout(() => {
-          hideAlert();
+          setAlert({
+            display: false,
+            error: false,
+            message: "",
+          });
         }, 5000);
       }
     } else {
@@ -153,13 +165,8 @@ export default function Page() {
       className="w-full flex flex-col items-center justify-start relative bg-white dark:bg-gray-800 dark:text-white dark:border-b-8 dark:border-b-gray-900"
       onSubmit={handleSubmit(handleFormSubmit)}
     >
-      {myAlert.display ? (
-        <Alert
-          className="absolute top-10 right-1 md:right-10 flex items-center animate-bounce tracking-tighter md:tracking-normal text-xs md:text-lg max-w-[85%]"
-          severity={myAlert.error ? "error" : "success"}
-        >
-          {myAlert.message}
-        </Alert>
+      {alert.display ? (
+        <AlertBox error={alert.error}>{alert.message}</AlertBox>
       ) : null}
       <section className="flex w-full py-5 md:py-10 bg-gray-700 items-center px-4 md:px-10">
         <p className="text-base md:text-3xl text-white font-bold tracking-wide uppercase">
@@ -289,7 +296,7 @@ export default function Page() {
           Cancel
         </Button>
         <Button
-          disabled={loading || myAlert.display}
+          disabled={loading || alert.display}
           type="submit"
           className="flex items-center justify-center gap-x-2 w-16 md:w-20 disabled:w-24 text-xs md:text-base md:disabled:w-32 p-2 text-white bg-green-600 
           hover:bg-green-700 hover:scale-105 rounded-lg disabled:bg-[#88aa7a] disabled:hover:scale-100 
