@@ -17,6 +17,11 @@ export default function Page() {
   const getData = useCallback(async () => {
     try {
       setDataLoading(true);
+      setAlert({
+        display: false,
+        error: false,
+        message: "",
+      });
       let myRequest = await fetch("/api/surveys", {
         method: "GET",
         headers: {
@@ -41,13 +46,6 @@ export default function Page() {
             ? "Connection error"
             : "Some error happened fetching data. Reload page",
       });
-      // setTimeout(() => {
-      //   setAlert({
-      //     display: false,
-      //     error: false,
-      //     message: "",
-      //   });
-      // }, 5000);
     }
     setDataLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps

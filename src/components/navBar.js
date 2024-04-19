@@ -1,16 +1,18 @@
-"use client";
 import { useState, useEffect } from "react";
 import DarkModeButton from "./darkModeButton";
 import {
+  Avatar,
   BottomNavigation,
   BottomNavigationAction,
+  Divider,
   Paper,
   useMediaQuery,
 } from "@mui/material";
 import { Person2, Poll } from "@mui/icons-material";
 import { usePathname, useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 
-const Navbar = ({ darkMode, setDarkMode }) => {
+const Navbar = ({ darkMode, toggleDarkMode }) => {
   const mediumWidth = useMediaQuery("(min-width:768px)");
   const [isScrolled, setIsScrolled] = useState(false);
   const router = useRouter();
@@ -54,7 +56,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
                 <DarkModeButton
                   checked={darkMode}
                   onChange={() => {
-                    setDarkMode((val) => !val);
+                    toggleDarkMode();
                   }}
                 />
               </div>
@@ -85,15 +87,24 @@ const Navbar = ({ darkMode, setDarkMode }) => {
                   .
                 </p>
               </a>
-              <a
-                href="#"
-                className="text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-yellow-400 mx-4 transition-all duration-300 ease-in-out group"
-              >
-                Contact
-                <p className="mx-auto w-0 bg-gray-900 dark:bg-yellow-400 group-hover:w-full text-[0.9px] duration-300 transition-all ease-linear">
-                  .
-                </p>
-              </a>
+              <div className="relative group">
+                <Avatar className="bg-yellow-500">h</Avatar>
+                <div className="w-32 py-2 hidden hover:block group-hover:block absolute right-2 bg-white border-2 border-gray-300 rounded-md transition-all duration-500 ease-in-out">
+                  <div className="w-3 h-3 border-s-2 border-t-2 border-gray-300 bg-white rotate-45 absolute -top-0 right-1 -translate-y-1/2 rounded"></div>
+                  <div className="ps-2 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 transition-all duration-200 ease-in-out">
+                    Profile
+                  </div>
+                  <Divider />
+                  <div
+                    onClick={() => {
+                      signOut();
+                    }}
+                    className="ps-2 py-2 text-sm text-red-500 font-medium hover:bg-gray-100 transition-all duration-200 ease-in-out"
+                  >
+                    <p>Signout</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -106,7 +117,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
           <DarkModeButton
             checked={darkMode}
             onChange={() => {
-              setDarkMode((val) => !val);
+              toggleDarkMode();
             }}
           />
         </div>

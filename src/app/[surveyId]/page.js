@@ -131,7 +131,10 @@ export default function Page() {
   }
   if (surveyData) {
     return (
-      <form onSubmit={handleSubmit(handleFormSubmit)}>
+      <form
+        // className="dark"
+        onSubmit={handleSubmit(handleFormSubmit)}
+      >
         {alert.display ? (
           <AlertBox error={alert.error}>{alert.message}</AlertBox>
         ) : null}
@@ -252,4 +255,5 @@ export default function Page() {
       </form>
     );
   }
+  return null;
 }

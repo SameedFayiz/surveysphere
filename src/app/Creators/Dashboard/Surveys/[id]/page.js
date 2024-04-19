@@ -20,6 +20,11 @@ export default function Page({ params }) {
   useEffect(() => {
     if (!surveyData) {
       (async () => {
+        setAlert({
+          display: false,
+          error: false,
+          message: "",
+        });
         try {
           let myRequest = await fetch(`/api/survey/${params.id}`, {
             method: "GET",
@@ -45,13 +50,6 @@ export default function Page({ params }) {
                   ? "Connection error"
                   : "Some error happened fetching data. Reload page",
             });
-            // setTimeout(() => {
-            //   setAlert({
-            //     display: false,
-            //     error: false,
-            //     message: "",
-            //   });
-            // }, 5000);
           }
         }
       })();

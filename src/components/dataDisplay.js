@@ -197,7 +197,10 @@ const DataDisplay = ({ data, setData, getData, dataLoading, setAlert }) => {
                 <TableRow>
                   <TableCell colSpan={4}>
                     <div className="flex justify-center items-center my-[10%]">
-                      <CircularProgress size={40} />
+                      <CircularProgress
+                        className="dark:[&_*]:!text-yellow-500"
+                        size={40}
+                      />
                     </div>
                   </TableCell>
                 </TableRow>
@@ -225,7 +228,10 @@ const DataDisplay = ({ data, setData, getData, dataLoading, setAlert }) => {
       ) : (
         <div className="h-full flex flex-col gap-4 justify-center items-center px-4 md:px-10 dark:bg-gray-900">
           {dataLoading ? (
-            <CircularProgress size={40} />
+            <CircularProgress
+              className="dark:[&_*]:!text-yellow-500"
+              size={40}
+            />
           ) : data?.length > 0 ? (
             (searchVal
               ? data?.filter((i) => {

@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import AuthSessionProvider from "@/components/Providers/sessionProvider";
+import DarkModeTheme from "@/components/Providers/darkModeTheme";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,7 +14,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <AuthSessionProvider>
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          <DarkModeTheme>{children}</DarkModeTheme>
+        </body>
       </AuthSessionProvider>
     </html>
   );

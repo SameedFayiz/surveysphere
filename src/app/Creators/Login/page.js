@@ -1,21 +1,41 @@
+"use client";
+import { DarkModeContext } from "@/components/Providers/darkModeTheme";
 import LoginForm from "@/components/loginForm";
+import { useMediaQuery } from "@mui/material";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import { useContext } from "react";
 
-export default function Login() {
+export default function Page() {
+  const searchParams = useSearchParams();
+  const mediumWidth = useMediaQuery("(min-width:768px)");
+  const { darkMode } = useContext(DarkModeContext);
+
   return (
-    <main className="h-screen w-screen flex justify-center items-center bg-[#565656]">
-      <div className="h-[90%] lg:h-[75%] min-w-[312px] md:min-w-[512px] lg:min-w-[912px] flex justify-center items-center bg-white">
-        <section id="loginForm" className="h-full lg:w-1/2">
-          <LoginForm />
+    <main className="h-screen w-screen min-w-[312px] flex justify-center items-center relative p-2 sm:p-0">
+      <Image
+        className="-z-50"
+        src={darkMode ? "/loginBackground2.jpg" : "/loginBackground1.jpg"}
+        alt="Background"
+        quality={100}
+        fill
+        sizes="100vw"
+        style={{
+          objectFit: "cover",
+        }}
+      />
+      <div
+        className="min-h-[550px] h-[90%] lg:h-[75%] max-h-[600px] min-w-[300px] md:min-w-[512px] lg:min-w-[912px] flex justify-center 
+        items-center shadow-lg shadow-black rounded-lg overflow-hidden"
+      >
+        <section className="h-full w-full lg:w-1/2">
+          <LoginForm mediumWidth={mediumWidth} params={searchParams} />
         </section>
-        <section
-          id="imageArea"
-          className="hidden lg:flex h-full lg:w-1/2 relative overflow-hidden"
-        >
+        <section className="hidden lg:flex lg:w-1/2 h-full relative overflow-hidden">
           <Image
-            // className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-            src={"/LoginPage.jpg"}
-            alt="Login Image"
+            className={darkMode ? "bg-gray-800" : "bg-gray-100"}
+            src={darkMode ? "/loginBannerDark.svg" : "/loginBanner.svg"}
+            alt="Login banner"
             fill={true}
           />
         </section>
