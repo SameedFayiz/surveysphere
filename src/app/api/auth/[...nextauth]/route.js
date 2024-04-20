@@ -28,9 +28,11 @@ export const authOptions = {
           }
           user.password = undefined;
 
-          const token =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIzNDU2Nzg5LCJuYW1lIjoiSm9zZXBoIn0.OpOSSw7e485LOP5PrzScxHb7SR6sAOMRckfFwi4rp7o"; // Random token
-          return { ...user, token };
+          return {
+            id: user._id,
+            name: user.firstName + user.lastName,
+            email: user.email,
+          };
         } else {
           return null;
         }
@@ -43,11 +45,17 @@ export const authOptions = {
   },
   callbacks: {
     jwt: async ({ token, user, session }) => {
-      console.log("Token callback", { token, user, session });
+      console.log("Token callback", token, user);
+      if (user) {
+        return { ...token, user };
+      }
       return token;
     },
     session: async ({ session, token, user }) => {
       console.log("Session callback", { session, token, user });
+      if (token.user) {
+        return { ...session, user: { ...token.user } };
+      }
       return session;
     },
     signIn: async ({ user, account, profile, email, credentials }) => {
@@ -55,6 +63,8 @@ export const authOptions = {
         throw new Error(user?.error);
       } else if (user?.error === "incorrectPassword") {
         throw new Error(user?.error);
+      } else if (!user) {
+        throw new Error("Internal server error");
       }
       return true;
     },

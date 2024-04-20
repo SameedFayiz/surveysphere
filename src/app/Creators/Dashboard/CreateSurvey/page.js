@@ -13,9 +13,12 @@ import {
 } from "@mui/material";
 import AddQuestionComponent from "@/components/addQuestion";
 import AlertBox from "@/components/alertBox";
+import { useSession } from "next-auth/react";
 
 export default function Page() {
   const mediumWidth = useMediaQuery("(min-width:768px)");
+
+  const { data } = useSession();
 
   // React-Hook-form
   const { control, handleSubmit } = useForm({
@@ -103,7 +106,7 @@ export default function Page() {
   };
 
   // Functionality for submitting the form
-  const handleFormSubmit = async (data) => {
+  const handleFormSubmit = async () => {
     if (qData.length) {
       // after validation
       setLoading(true);
@@ -114,6 +117,7 @@ export default function Page() {
       let sendData = {
         ...formData,
         questions: tmp,
+        user: data?.user?.id,
       };
       try {
         let sendReq = await fetch("/api/survey", {

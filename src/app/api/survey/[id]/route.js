@@ -1,8 +1,17 @@
 import connectDB from "@/lib/dbConnect";
 import surveyModel from "@/models/survey";
 import { NextResponse } from "next/server";
+import { authOptions } from "../../auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
 
 export async function GET(req, { params }) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json(
+      { error: true, message: "Unauthorized access" },
+      { status: 401 }
+    );
+  }
   const id = params.id;
   try {
     await connectDB();
@@ -25,6 +34,13 @@ export async function GET(req, { params }) {
 }
 
 export async function DELETE(req, { params }) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json(
+      { error: true, message: "Unauthorized access" },
+      { status: 401 }
+    );
+  }
   const id = params.id;
   try {
     await connectDB();
@@ -37,7 +53,6 @@ export async function DELETE(req, { params }) {
       );
     }
     await surveyModel.deleteOne({ _id: id });
-    // await AnswerModel.deleteMany({ survey: req.params.id });
 
     return NextResponse.json(
       { error: false, message: "Survey deleted" },

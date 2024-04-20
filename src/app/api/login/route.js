@@ -5,7 +5,12 @@ import { compareSync } from "bcrypt";
 
 export async function POST(req, res) {
   const { email, password } = await req.json();
-
+  if (!email || !password) {
+    return NextResponse.json(
+      { error: true, message: "Invalid request" },
+      { status: 500 }
+    );
+  }
   try {
     await connectDB();
 
@@ -26,13 +31,11 @@ export async function POST(req, res) {
     }
     user.password = undefined;
 
-    const token = "dhohofq08yfqeoheefq4864654rweg46we"; // Random token
     return NextResponse.json(
       {
         error: false,
         message: "User authenticated",
         user,
-        token: token,
       },
       { status: 200 }
     );

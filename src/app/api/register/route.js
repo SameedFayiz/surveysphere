@@ -1,18 +1,25 @@
 import { genSaltSync, hashSync } from "bcrypt";
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/dbConnect";
-import Users from "@/models/user";
+import userModel from "@/models/user";
 
 export async function POST(req, res) {
-  const body = await req.json();
+  let { firstName, lastName, email, password } = await req.json();
+  if (!firstName || !lastName || !email || !password) {
+    return NextResponse.json({ error: "Invalid request" }, { status: 500 });
+  }
 
   const salt = genSaltSync(10); // Generate salt with salt rounds
-  body.password = hashSync(body.password, salt); // Hash password
+  password = hashSync(password, salt); // Hash password
 
   try {
-    await connectDB();
-
-    const user = await Users.create({ ...body });
+    let db = await connectDB();
+    const user = await userModel.create({
+      firstName,
+      lastName,
+      email,
+      password,
+    });
     user.password = undefined;
 
     return NextResponse.json({ message: "Account created" }, { status: 200 });
