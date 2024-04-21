@@ -22,7 +22,7 @@ import { RefreshOutlined } from "@mui/icons-material";
 import SurveyCard from "./surveyCard";
 import Link from "next/link";
 
-const DataDisplay = ({ data, setData, getData, dataLoading, setAlert }) => {
+const DataDisplay = ({ data, userId, getData, dataLoading, setAlert }) => {
   const mediumWidth = useMediaQuery("(min-width:768px)");
   const router = useRouter();
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -91,7 +91,7 @@ const DataDisplay = ({ data, setData, getData, dataLoading, setAlert }) => {
         error: false,
         message: "Survey successfully deleted",
       });
-      getData();
+      getData(userId);
     } catch (error) {
       setAlert({
         display: true,
@@ -152,7 +152,7 @@ const DataDisplay = ({ data, setData, getData, dataLoading, setAlert }) => {
             className={`hidden md:block text-blue-600 dark:text-white hover:cursor-pointer transition-all duration-700 ${spin}`}
             onClick={async (e) => {
               setSpin("animate-spin");
-              getData();
+              getData(userId);
               setTimeout(() => {
                 setSpin("");
               }, 2000);
@@ -226,7 +226,7 @@ const DataDisplay = ({ data, setData, getData, dataLoading, setAlert }) => {
           </Table>
         </TableContainer>
       ) : (
-        <div className="h-full flex flex-col gap-4 justify-center items-center px-4 md:px-10 dark:bg-gray-900">
+        <div className="h-full flex flex-col gap-4 justify-center items-center px-4 md:px-10 dark:bg-gray-900 pb-4">
           {dataLoading ? (
             <CircularProgress
               className="dark:[&_*]:!text-yellow-500"

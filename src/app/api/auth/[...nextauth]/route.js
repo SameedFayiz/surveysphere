@@ -52,7 +52,7 @@ export const authOptions = {
       return token;
     },
     session: async ({ session, token, user }) => {
-      console.log("Session callback", { session, token, user });
+      console.log("Session callback", session);
       if (token.user) {
         return { ...session, user: { ...token.user } };
       }

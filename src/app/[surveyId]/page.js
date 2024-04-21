@@ -34,7 +34,7 @@ export default function Page() {
         try {
           let ipAddress = await getIpAddress();
           let myRequest = await fetch(
-            `/api/user/survey/${params.surveyId}?title=${title}&ip=${ipAddress}`,
+            `/api/client/survey/${params.surveyId}?title=${title}&ip=${ipAddress}`,
             {
               method: "GET",
               headers: {
@@ -88,7 +88,7 @@ export default function Page() {
     setLoading(true);
     try {
       let ipAddress = await getIpAddress();
-      let myRequest = await fetch("/api/user/survey/", {
+      let myRequest = await fetch("/api/client/survey/", {
         body: JSON.stringify({
           surveyId: surveyData._id,
           ipAddress,
@@ -138,19 +138,21 @@ export default function Page() {
         {alert.display ? (
           <AlertBox error={alert.error}>{alert.message}</AlertBox>
         ) : null}
-        <main className="flex min-h-screen flex-col items-center justify-start px-24 py-10">
-          <section className="flex w-full h-24 bg-slate-700 items-center border-4 border-white rounded-t-2xl shadow-2xl ps-10">
-            <p className="text-xl text-white font-bold tracking-wide uppercase">
+        <main className="flex min-h-screen flex-col items-center justify-start bg-slate-300 dark:bg-gray-900 md:px-24 md:py-10 px-4 py-4">
+          <section className="flex w-full h-24 bg-slate-700 items-center border-4 border-white dark:border-gray-800 rounded-t-2xl shadow-2xl ps-4 md:ps-10">
+            <p className="text-base md:text-xl text-white dark:text-yellow-500 font-bold tracking-wide uppercase">
               {wrapText(surveyData?.surveyTitle)}
             </p>
           </section>
-          <section className="flex flex-col gap-4 w-full bg-white p-10 ">
-            <div className="text-">{wrapText(surveyData?.description)}</div>
-            <div className="flex flex-col shadow-xl p-4 rounded-xl">
-              <p className="text-slate-700 font-semibold text-lg">
+          <section className="flex flex-col gap-4 w-full p-4 bg-white dark:bg-gray-800 dark:text-white md:p-10">
+            <div className="text-sm md:text-base">
+              {wrapText(surveyData?.description)}
+            </div>
+            <div className="flex flex-col shadow md:shadow-lg dark:shadow-gray-300 p-4 rounded-xl">
+              <p className="text-slate-700 dark:text-yellow-500 font-semibold text-base md:text-lg">
                 Instructions:
               </p>
-              <ol className="flex flex-col gap-2 text-sm tracking-wide text-slate-600 list-decimal list-inside ps-5">
+              <ol className="flex flex-col gap-2 text-xs md:text-sm tracking-wide text-slate-600 dark:text-gray-300 list-decimal list-inside px-4 md:px-5">
                 <li>
                   Provide honest answers: Your responses should reflect your
                   genuine opinions and experiences. Avoid guessing or providing
@@ -200,7 +202,7 @@ export default function Page() {
               </ol>
             </div>
           </section>
-          <section className="flex flex-col gap-10 w-full bg-white p-10">
+          <section className="flex flex-col gap-10 w-full bg-white dark:bg-gray-800 p-4 md:p-10 rounded-b-2xl">
             {surveyData?.questions.map((i) => {
               return (
                 <Controller
@@ -240,7 +242,7 @@ export default function Page() {
 
             <button
               disabled={loading}
-              className="w-20 px-4 py-2 bg-blue-600 hover:bg-blue-700 hover:scale-105 text-white rounded-lg
+              className="w-16 md:w-20 px-4 py-2 bg-blue-600 hover:bg-blue-700 hover:scale-105 text-sm md:text-base text-white rounded-lg
                disabled:bg-slate-400 disabled:hover:bg-slate-400 disabled:hover:scale-100 transition-all
                 duration-200 ease-in-out flex items-center justify-center gap-x-2 disabled:w-32"
               type="submit"

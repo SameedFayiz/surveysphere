@@ -59,7 +59,10 @@ export default function LoginForm({ mediumWidth, params }) {
         </div>
         <div className="mb-4">
           {error ? (
-            <Alert className="py-0 mb-3" severity="error">
+            <Alert
+              className="py-0 mb-3 text-xs flex items-center sm:text-base"
+              severity="error"
+            >
               {error}
             </Alert>
           ) : null}

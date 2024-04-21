@@ -12,6 +12,10 @@ export default function DashboardLayout({ children }) {
   const router = useRouter();
   const path = usePathname();
 
+  if (path.includes("Login") || path.includes("Register")) {
+    return <>{children}</>;
+  }
+
   return (
     <>
       <DataContextProvider>
@@ -25,11 +29,11 @@ export default function DashboardLayout({ children }) {
               onClick={() => {
                 router.back();
               }}
-              className="fixed top-36 left-0 z-50 flex justify-center items-center opacity-50 bg-black text-white rounded-e-2xl p-2 hover:scale-105 hover:opacity-100
+              className="hidden fixed top-20 md:top-36 left-0 z-50 sm:flex justify-center items-center opacity-50 bg-black text-white rounded-e-2xl p-2 ps-0 hover:scale-105 hover:opacity-100
            transition-all duration-200 ease-in-out"
             >
-              <NavigateBefore className="text-[30px]" />
-              <span className="text-base">Back</span>
+              <NavigateBefore className="text-base md:text-[30px]" />
+              <span className="text-xs md:text-base">Back</span>
             </button>
           ) : (
             <></>

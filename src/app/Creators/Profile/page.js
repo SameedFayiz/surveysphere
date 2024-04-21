@@ -1,13 +1,10 @@
 "use client";
 import { useCallback, useContext, useEffect, useState } from "react";
-import DataDisplay from "@/components/dataDisplay";
 import { DataContext } from "@/components/Providers/dataContext";
 import AlertBox from "@/components/alertBox";
-import { useSession } from "next-auth/react";
 
 // Administrative controls page
 export default function Page() {
-  const userData = useSession().data;
   const [data, setData] = useContext(DataContext);
   const [dataLoading, setDataLoading] = useState(true);
   const [alert, setAlert] = useState({
@@ -16,7 +13,7 @@ export default function Page() {
     message: "",
   });
 
-  const getData = useCallback(async (id) => {
+  const getData = useCallback(async () => {
     try {
       setDataLoading(true);
       setAlert({
@@ -24,19 +21,19 @@ export default function Page() {
         error: false,
         message: "",
       });
-      let myRequest = await fetch(`/api/surveys/${id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      myRequest = await myRequest.json();
+      //   let myRequest = await fetch("/api/surveys", {
+      //     method: "GET",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //   });
+      //   myRequest = await myRequest.json();
 
-      if (myRequest.error) {
-        throw myRequest;
-      }
+      //   if (myRequest.error) {
+      //     throw myRequest;
+      //   }
 
-      setData(myRequest.surveys);
+      //   setData(myRequest.surveys);
     } catch (error) {
       setData([]);
 
@@ -54,10 +51,9 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
-    if (userData?.user?.id) {
-      getData(userData?.user?.id);
-    }
-  }, [getData, userData?.user?.id]);
+    getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getData]);
 
   return (
     <>
@@ -70,14 +66,6 @@ export default function Page() {
             Surveys
           </p>
         </section>
-        <DataDisplay
-          userId={userData?.user?.id}
-          data={data}
-          setData={setData}
-          dataLoading={dataLoading}
-          getData={getData}
-          setAlert={setAlert}
-        />
       </main>
     </>
   );

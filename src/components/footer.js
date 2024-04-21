@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <footer
-      className="w-full bg-gradient-to-tr dark:[background-image:none] from-gray-300 via-white to-gray-300 text-gray-800
+      className="w-full text-gray-800 bg-slate-200
      dark:bg-gray-700 dark:text-white pt-6 pb-16 border-t-2 border-gray-400"
     >
       <div className="container mx-auto px-10">

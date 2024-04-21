@@ -14,7 +14,7 @@ const RadioQuestion = (props) => {
         {`Q${qNo}.`}
         <div className="normal-case">{`${wrapText(question)}`}</div>
       </div>
-      <div className="flex flex-col justify-center w-full ps-10">
+      <div className="flex flex-col justify-center w-full ps-4 sm:ps-8 md:ps-10">
         <FormControl {...field}>
           <FormLabel className="text-sm dark:!text-yellow-500">
             Pick one option
@@ -38,9 +38,7 @@ const RadioQuestion = (props) => {
                   label={
                     <p
                       className={
-                        disabled
-                          ? "dark:!text-gray-400 "
-                          : "dark:!text-yellow-500"
+                        disabled ? "dark:!text-gray-400 " : "dark:!text-white"
                       }
                     >
                       {wrapText(i[1])}
