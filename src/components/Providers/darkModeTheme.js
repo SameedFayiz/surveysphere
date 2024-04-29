@@ -27,7 +27,10 @@ const DarkModeTheme = ({ children }) => {
       <div className={`${darkMode ? "dark" : ""}  w-full h-full`}>
         <div
           className={`${
-            path.includes("/Creators/Dashboard") ? "hidden" : ""
+            !path.includes("/Creators/Login") &&
+            !path.includes("/Creators/Register")
+              ? "hidden"
+              : ""
           } fixed top-3 right-3 z-40 bg-slate-400 rounded-full shadow-md shadow-white`}
         >
           <DarkModeButton

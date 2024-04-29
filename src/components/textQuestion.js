@@ -14,9 +14,10 @@ const TextQuestion = (props) => {
         className="flex flex-col justify-center items-center w-full rounded-lg p-2 overflow-hidden ring-1 focus-within:ring-0
        ring-slate-300 dark:ring-white dark:bg-gray-900 dark:focus-within:bg-transparent transition-all duration-300 ease-in-out"
       >
-        <input
+        <textarea
           placeholder="Answer"
-          className="peer w-full p-1 md:p-2 outline-none text-sm md:text-base bg-transparent"
+          className="h-[38px] max-h-96 focus:h-96 peer w-full p-1 md:p-2 outline-none text-sm md:text-base bg-transparent
+           text-gray-800 dark:text-white transition-all duration-300 ease-in-out resize-none bg-scroll"
           disabled={disabled}
         />
 
@@ -24,7 +25,7 @@ const TextQuestion = (props) => {
           .
         </p>
       </div>
-      <div className="text-sm text-red-600 font-semibold mt-2 tracking-wide">
+      <div className="text-xs md:text-sm text-red-600 font-semibold mt-2 tracking-wide">
         {error ? "Required field!" : null}
       </div>
     </FormControl>

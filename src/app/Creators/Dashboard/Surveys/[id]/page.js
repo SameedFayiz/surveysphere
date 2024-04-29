@@ -1,21 +1,25 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import wrapText from "@/utils/wrapText";
 import RadioQuestion from "@/components/radioQuestion";
 import ScaleQuestion from "@/components/scaleQuestion";
 import TextQuestion from "@/components/textQuestion";
 import AlertBox from "@/components/alertBox";
+import { CircularProgress } from "@mui/material";
+import { Check } from "@mui/icons-material";
+import Link from "next/link";
 
 export default function Page({ params }) {
+  const router = useRouter();
+  const path = usePathname();
   const [surveyData, setSurveyData] = useState(null);
+  const linkEleRef = useRef();
   const [alert, setAlert] = useState({
     display: false,
     error: false,
     message: "",
   });
-
-  const router = useRouter();
 
   useEffect(() => {
     if (!surveyData) {
@@ -57,6 +61,13 @@ export default function Page({ params }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.id, surveyData]);
 
+  const copyLink = () => {
+    let copyText = linkEleRef.current;
+
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(copyText.innerText);
+  };
+
   if (surveyData) {
     return (
       <main className="flex w-full min-h-screen flex-col bg-white dark:bg-gray-800 dark:text-white">
@@ -68,7 +79,37 @@ export default function Page({ params }) {
             Survey form preview
           </p>
         </section>
-        <section className="flex flex-col gap-4 w-full px-4 md:px-10 pt-5">
+        <section className="flex flex-col gap-4 w-full px-4 md:px-10 pt-5 text-gray-800 dark:text-white">
+          <div className="flex items-center gap-x-2">
+            <p className="text-gray-800 dark:text-yellow-500">Share:</p>
+            <div className="border-gray-500 border flex items-center w-full h-full rounded overflow-hidden">
+              <Link
+                className="px-2 min-w text-sm dark:text-white hover:text-blue-600 dark:hover:text-yellow-500
+                 transition-all duration-200 ease-in-out break-all"
+                ref={linkEleRef}
+                href={`${window?.location?.origin}/${path
+                  .split("/")
+                  .pop()}?title=${encodeURI(surveyData?.surveyTitle)}`}
+              >
+                {`${window?.location?.origin}/${path
+                  .split("/")
+                  .pop()}?title=${encodeURI(surveyData?.surveyTitle)}`}
+              </Link>
+              <button
+                onClick={(e) => {
+                  e.target.innerText = "Copied !";
+                  copyLink();
+                  setTimeout(() => {
+                    e.target.innerText = "Copy link";
+                  }, 2000);
+                }}
+                className="h-full ms-auto p-1 text-white bg-blue-600 dark:bg-gray-600 hover:bg-blue-700 dark:hover:bg-gray-700 dark:hover:text-yellow-500
+                 transition-all duration-200 ease-in-out"
+              >
+                Copy link
+              </button>
+            </div>
+          </div>
           <div className="text-lg md:text-2xl font-semibold">
             <span className="dark:text-yellow-500">Title: </span>{" "}
             {wrapText(surveyData?.surveyTitle)}
@@ -78,7 +119,7 @@ export default function Page({ params }) {
             {wrapText(surveyData?.description)}
           </div>
         </section>
-        <section className="text-xl md:text-2xl dark:text-yellow-500 font-semibold tracking-wide flex  w-full px-4 md:px-10 pt-4 md:pt-10">
+        <section className="text-xl md:text-2xl text-gray-800 dark:text-yellow-500 font-semibold tracking-wide flex  w-full px-4 md:px-10 pt-4 md:pt-10">
           Questions
         </section>
         <section className="flex flex-col gap-8 md:gap-10 w-full p-6 md:p-10 !pt-2">
@@ -112,4 +153,10 @@ export default function Page({ params }) {
       </main>
     );
   }
+  return (
+    <div className="w-full h-screen flex justify-center items-center flex-col">
+      <CircularProgress className="dark:[&_*]:!text-yellow-500" size={40} />
+      <p className="dark:text-yellow-500">Loading</p>
+    </div>
+  );
 }

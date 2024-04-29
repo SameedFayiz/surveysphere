@@ -179,7 +179,7 @@ export default function Page() {
       </section>
       <section className="w-full dark:border-t-8 dark:border-t-gray-900 px-4 md:px-10">
         <div className="flex justify-between pt-10 items-baseline">
-          <div className="text-lg md:text-3xl font-semibold dark:text-yellow-500">
+          <div className="text-lg md:text-3xl font-semibold text-gray-800 dark:text-yellow-500">
             Survey details
           </div>
           <div className="flex items-end tracking-tighter md:tracking-normal text-[11px] md:text-sm text-red-500">
@@ -244,7 +244,7 @@ export default function Page() {
         </FormControl>
       </section>
       <section className="w-full flex flex-col px-4 md:px-10 pb-8 gap-2 md:gap-4">
-        <div className="text-lg md:text-3xl font-semibold dark:text-yellow-500">
+        <div className="text-lg md:text-3xl font-semibold text-gray-800 dark:text-yellow-500">
           Questions
         </div>
         {qLimit.length ? null : (

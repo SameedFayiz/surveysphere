@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import {
+  Alert,
   CircularProgress,
   IconButton,
   InputAdornment,
@@ -14,9 +15,11 @@ export default function RegisterForm({ mediumWidth, myAlert, setAlert }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
+  const [myError, setMyError] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMyError(false);
     setLoading(true);
     setAlert({
       display: false,
@@ -30,8 +33,8 @@ export default function RegisterForm({ mediumWidth, myAlert, setAlert }) {
       email: formData.get("email"),
       password: formData.get("password"),
     };
-    console.log(formData);
-    let sendReq = await fetch("/api/register", {
+
+    let sendReq = await fetch("/api/user/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -39,13 +42,17 @@ export default function RegisterForm({ mediumWidth, myAlert, setAlert }) {
       body: JSON.stringify(formData),
     });
     sendReq = await sendReq.json();
-    console.log(sendReq);
+
     if (sendReq.error) {
-      setAlert({
-        display: true,
-        error: true,
-        message: "Couldn't create account due to some error",
-      });
+      if (sendReq.error === "User already exists") {
+        setMyError(true);
+      } else {
+        setAlert({
+          display: true,
+          error: true,
+          message: "Couldn't create account due to some error",
+        });
+      }
     } else {
       setAlert({
         display: true,
@@ -79,6 +86,14 @@ export default function RegisterForm({ mediumWidth, myAlert, setAlert }) {
         </div>
         <div className="mb-4">
           <form onSubmit={handleSubmit}>
+            {myError ? (
+              <Alert
+                className="p mb-2 text-sm tracking-tighter md:tracking-normal md:text-base"
+                severity="error"
+              >
+                This email is already registered with another account
+              </Alert>
+            ) : null}
             <div className="flex flex-col sm:flex-row gap-3 mb-3">
               <TextField
                 disabled={loading}

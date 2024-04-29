@@ -26,7 +26,7 @@ const ScaleRangeComponent = (props) => {
 
   return (
     <FormControl onChange={handleChange} className="w-full">
-      <div className="w-full text-base md:text-xl font-semibold mb-3">
+      <div className="w-full text-base md:text-xl text-gray-800 dark:text-yellow-500 font-semibold mb-3">
         Scale&apos;s range
       </div>
       <div className="flex gap-4">
@@ -103,7 +103,7 @@ const RadioOptionComponent = (props) => {
 
   return (
     <FormControl onChange={handleChange} className="flex flex-col w-full gap-2">
-      <div className="w-full text-base md:text-xl font-semibold">
+      <div className="w-full text-base md:text-xl text-gray-800 dark:text-yellow-500 font-semibold">
         Radio Options
       </div>
       {

@@ -33,7 +33,7 @@ const DataDisplay = ({ data, userId, getData, dataLoading, setAlert }) => {
   const DataRow = ({ row }) => {
     return (
       <TableRow
-        className="group hover:scale-[0.98] transition-all duration-200 ease-in-out"
+        className="group hover:scale-[0.98] [&_*]:transition-all [&_*]:duration-200 [&_*]:ease-in-out"
         onClick={() => {
           handleClick(row._id);
         }}
@@ -170,7 +170,7 @@ const DataDisplay = ({ data, userId, getData, dataLoading, setAlert }) => {
       {mediumWidth ? (
         <TableContainer
           component={Paper}
-          className="w-full h-full rounded-none dark:bg-gray-900 dark:p-2 dark:pt-0"
+          className="w-full h-full rounded-none dark:bg-gray-900 dark:p-2 dark:pt-0 min-h-96"
         >
           <Table className="dark:[&_*]:text-white dark:bg-gray-800 dark:border-b-2 dark:border-gray-900 rounded-lg">
             <TableHead>

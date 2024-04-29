@@ -8,9 +8,9 @@ const SearchInput = (props) => {
 
   return (
     <div className="flex w-full md:w-52 md:focus-within:w-[70%] gap-x-2 p-[6px] md:p-2 dark:text-white border focus-within:border border-neutral-400 dark:border-white focus-within:border-blue-500 dark:focus-within:border-white hover:border-black hover:focus-within:border-blue-500 dark:hover:focus-within:border-white rounded-xl transition-all duration-300 ease-in-out">
-      <SearchOutlined />
+      <SearchOutlined className="text-gray-600 dark:text-white" />
       <input
-        className="outline-none w-full dark:placeholder-white bg-inherit text-sm md:text-base"
+        className="outline-none w-full dark:placeholder-white bg-inherit text-sm md:text-base text-gray-800 dark:text-white"
         placeholder="Search for 'Surveys'"
         value={val}
         onChange={(e) => {

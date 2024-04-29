@@ -4,14 +4,15 @@ import RadioQuestion from "@/components/radioQuestion";
 import ScaleQuestion from "@/components/scaleQuestion";
 import TextQuestion from "@/components/textQuestion";
 import wrapText from "@/utils/wrapText";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, useMediaQuery } from "@mui/material";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import AlertBox from "@/components/alertBox";
 import getIpAddress from "@/utils/getIpAddress";
 
 export default function Page() {
+  const darkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
@@ -132,8 +133,13 @@ export default function Page() {
   if (surveyData) {
     return (
       <form
-        // className="dark"
+        className={darkMode ? "dark" : ""}
         onSubmit={handleSubmit(handleFormSubmit)}
+        onKeyDown={(e) => {
+          if (e.key == "Enter" && e.target.tagName != "TEXTAREA") {
+            e.preventDefault();
+          }
+        }}
       >
         {alert.display ? (
           <AlertBox error={alert.error}>{alert.message}</AlertBox>
@@ -144,7 +150,7 @@ export default function Page() {
               {wrapText(surveyData?.surveyTitle)}
             </p>
           </section>
-          <section className="flex flex-col gap-4 w-full p-4 bg-white dark:bg-gray-800 dark:text-white md:p-10">
+          <section className="flex flex-col gap-4 w-full p-4 bg-white dark:bg-gray-800 text-gray-800 dark:text-white md:p-10">
             <div className="text-sm md:text-base">
               {wrapText(surveyData?.description)}
             </div>
@@ -257,5 +263,10 @@ export default function Page() {
       </form>
     );
   }
-  return null;
+  return (
+    <div className="h-screen w-full flex justify-center items-center flex-col">
+      <CircularProgress className="dark:[&_*]:!text-yellow-500" size={40} />
+      <p className="dark:text-yellow-500">Loading</p>
+    </div>
+  );
 }

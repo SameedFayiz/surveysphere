@@ -27,6 +27,7 @@ export default function LoginForm({ mediumWidth, params }) {
     await signIn("credentials", {
       email: formData.get("email"),
       password: formData.get("password"),
+      rememberMe: formData.get("rememberMe"),
       redirect: false,
       callbackUrl: params.get("callbackUrl")
         ? params.get("callbackUrl")
@@ -39,7 +40,6 @@ export default function LoginForm({ mediumWidth, params }) {
       } else if (res.error === "userNotFound") {
         setError("Email not found, please sign-up first");
       } else {
-        console.log(res.error);
         setError("Internal server error");
       }
     });
@@ -70,8 +70,8 @@ export default function LoginForm({ mediumWidth, params }) {
             <div className="flex flex-col mb-3">
               <TextField
                 size={`${mediumWidth ? "" : "small"}`}
-                className={`dark:[&_*]:!text-white dark:!bg-gray-800 dark:[&_fieldset]:!border-gray-500 dark:[&_fieldset]:hover:!border-black
-                 dark:[&>div.Mui-focused_fieldset]:!border-white [&_fieldset]:transition-all [&_fieldset]:duration-300`}
+                className="dark:[&_*]:!text-white dark:!bg-gray-800 dark:[&_fieldset]:!border-gray-500 dark:[&_fieldset]:hover:!border-black
+                 dark:[&>div.Mui-focused_fieldset]:!border-white [&_fieldset]:transition-all [&_fieldset]:duration-300"
                 fullWidth
                 type="email"
                 required
@@ -113,9 +113,9 @@ export default function LoginForm({ mediumWidth, params }) {
             </div>
             <div className="flex justify-between mb-4">
               <div className="flex items-center gap-1">
-                <input id="remember" name="remember" type="checkbox" />
+                <input id="rememberMe" name="rememberMe" type="checkbox" />
                 <label
-                  htmlFor="remember"
+                  htmlFor="rememberMe"
                   className="text-xs md:text-base text-gray-800 dark:text-white"
                 >
                   Remember me

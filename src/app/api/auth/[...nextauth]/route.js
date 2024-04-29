@@ -11,12 +11,17 @@ export const authOptions = {
       credentials: {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
+        rememberMe: { type: "text" },
       },
       async authorize(credentials, req) {
         if (typeof credentials !== "undefined") {
-          const { email, password } = credentials;
-          await connectDB();
+          const { email, password, rememberMe } = credentials;
 
+          if (!email || !password) {
+            return null;
+          }
+
+          await connectDB();
           const user = await Users.findOne({ email: email });
           if (!user) {
             return { error: "userNotFound" };
@@ -27,6 +32,10 @@ export const authOptions = {
             return { error: "incorrectPassword" };
           }
           user.password = undefined;
+
+          if (rememberMe === "on") {
+            authOptions.session.maxAge = 30 * 24 * 60 * 60;
+          }
 
           return {
             id: user._id,
@@ -39,20 +48,17 @@ export const authOptions = {
       },
     }),
   ],
-  session: { strategy: "jwt" },
-  jwt: {
-    maxAge: 60 * 60 * 24 * 30,
-  },
+  session: { strategy: "jwt", maxAge: 24 * 60 * 60 },
   callbacks: {
     jwt: async ({ token, user, session }) => {
-      console.log("Token callback", token, user);
+      // console.log("Token callback", token, user);
       if (user) {
         return { ...token, user };
       }
       return token;
     },
     session: async ({ session, token, user }) => {
-      console.log("Session callback", session);
+      // console.log("Session callback", session);
       if (token.user) {
         return { ...session, user: { ...token.user } };
       }

@@ -39,7 +39,7 @@ const ScaleQuestion = (props) => {
           />
         </Box>
       </FormControl>
-      <div className="text-sm text-red-600 font-semibold mt-2 tracking-wide">
+      <div className="text-xs md:text-sm text-red-600 font-semibold mt-2 tracking-wide">
         {props.error ? "Required field!" : null}
       </div>
     </div>

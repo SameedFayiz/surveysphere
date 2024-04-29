@@ -13,7 +13,14 @@ export async function POST(req, res) {
   password = hashSync(password, salt); // Hash password
 
   try {
-    let db = await connectDB();
+    await connectDB();
+    let existingUser = await userModel.findOne({ email });
+    if (existingUser) {
+      return NextResponse.json(
+        { error: "User already exists" },
+        { status: 500 }
+      );
+    }
     const user = await userModel.create({
       firstName,
       lastName,

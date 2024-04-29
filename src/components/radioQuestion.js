@@ -30,7 +30,7 @@ const RadioQuestion = (props) => {
                     <Radio
                       className={
                         disabled
-                          ? "dark:!text-gray-400 "
+                          ? "text-gray-400 dark:!text-gray-400 "
                           : "dark:!text-yellow-500"
                       }
                     />
@@ -38,7 +38,9 @@ const RadioQuestion = (props) => {
                   label={
                     <p
                       className={
-                        disabled ? "dark:!text-gray-400 " : "dark:!text-white"
+                        disabled
+                          ? "dark:!text-gray-400 "
+                          : "text-gray-800 dark:!text-white"
                       }
                     >
                       {wrapText(i[1])}
@@ -50,7 +52,7 @@ const RadioQuestion = (props) => {
           </RadioGroup>
         </FormControl>
       </div>
-      <div className="text-sm text-red-600 font-semibold mt-2 tracking-wide">
+      <div className="text-xs md:text-sm text-red-600 font-semibold mt-2 tracking-wide">
         {props.error ? "Required field!" : null}
       </div>
     </div>
