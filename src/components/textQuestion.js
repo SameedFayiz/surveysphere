@@ -16,7 +16,7 @@ const TextQuestion = (props) => {
       >
         <textarea
           placeholder="Answer"
-          className="h-[38px] max-h-96 focus:h-96 peer w-full p-1 md:p-2 outline-none text-sm md:text-base bg-transparent
+          className="h-[38px] [&::-webkit-scrollbar]:opacity-0 max-h-96 focus:h-96 peer w-full p-1 md:p-2 outline-none text-sm md:text-base bg-transparent
            text-gray-800 dark:text-white transition-all duration-300 ease-in-out resize-none bg-scroll"
           disabled={disabled}
         />

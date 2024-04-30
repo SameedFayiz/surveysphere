@@ -37,7 +37,12 @@ const surveySchema = new Schema(
       required: true,
     },
     description: { type: SchemaTypes.String, required: true },
-    accessList: { type: SchemaTypes.Array, required: true },
+    category: { type: SchemaTypes.String, required: true },
+    status: {
+      type: SchemaTypes.String,
+      enum: ["active", "inactive"],
+      required: true,
+    },
     questions: [questionSchema],
   },
   { timestamps: true }

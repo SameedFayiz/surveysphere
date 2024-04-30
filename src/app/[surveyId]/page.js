@@ -1,19 +1,23 @@
 "use client";
-import FormSubmitted from "@/components/formSubmitted";
 import RadioQuestion from "@/components/radioQuestion";
 import ScaleQuestion from "@/components/scaleQuestion";
 import TextQuestion from "@/components/textQuestion";
 import wrapText from "@/utils/wrapText";
 import { CircularProgress, useMediaQuery } from "@mui/material";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
+import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import AlertBox from "@/components/alertBox";
-import getIpAddress from "@/utils/getIpAddress";
 
 export default function Page() {
   const darkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const router = useRouter();
+  const path = usePathname();
   const params = useParams();
   const searchParams = useSearchParams();
   const title = searchParams.get("title");
@@ -22,7 +26,6 @@ export default function Page() {
     error: false,
     message: "",
   });
-  const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [surveyData, setSurveyData] = useState(null);
   const { control, handleSubmit } = useForm({
@@ -30,12 +33,11 @@ export default function Page() {
   });
 
   useEffect(() => {
-    if (!surveyData && !submitted) {
+    if (!surveyData) {
       (async () => {
         try {
-          let ipAddress = await getIpAddress();
           let myRequest = await fetch(
-            `/api/client/survey/${params.surveyId}?title=${title}&ip=${ipAddress}`,
+            `/api/client/survey/${params.surveyId}?title=${title}`,
             {
               method: "GET",
               headers: {
@@ -43,17 +45,17 @@ export default function Page() {
               },
             }
           );
-          let res = await myRequest.json();
 
           if (myRequest.status == 404) {
             router.push("/Not_Found/404");
             return null;
           }
-          if (myRequest.status == 401 && res.message == "Access denied") {
-            setSubmitted(true);
+
+          let res = await myRequest.json();
+          if (res.message == "Survey closed" && myRequest.status == 401) {
+            router.push("/SurveyClosed");
             return null;
           }
-
           if (res.error) {
             throw { status: myRequest.status, ...res };
           }
@@ -83,16 +85,14 @@ export default function Page() {
         }
       })();
     }
-  }, [params.surveyId, router, submitted, surveyData, title]);
+  }, [params.surveyId, path, router, surveyData, title]);
 
   const handleFormSubmit = async (answers) => {
     setLoading(true);
     try {
-      let ipAddress = await getIpAddress();
       let myRequest = await fetch("/api/client/survey/", {
         body: JSON.stringify({
           surveyId: surveyData._id,
-          ipAddress,
           answers,
         }),
         method: "PUT",
@@ -104,7 +104,7 @@ export default function Page() {
         throw myRequest;
       }
 
-      setSubmitted(true);
+      router.push(`/FormSubmitted?callBackUrl=${path}?title=${title}`);
     } catch (error) {
       setAlert({
         display: true,
@@ -127,9 +127,6 @@ export default function Page() {
     setLoading(false);
   };
 
-  if (submitted) {
-    return <FormSubmitted />;
-  }
   if (surveyData) {
     return (
       <form

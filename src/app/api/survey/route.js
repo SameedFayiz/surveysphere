@@ -27,9 +27,12 @@ export async function POST(req, res) {
       surveyTitle,
       description,
       questions,
+      status: "active",
+      category: "not-set", //TODO: implement category
     });
     return NextResponse.json({ error: false, survey }, { status: 200 });
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { error: true, errorBody: error, message: "Internal server error" },
       { status: 500 }

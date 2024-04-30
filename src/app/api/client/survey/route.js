@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export async function PUT(req, res) {
   try {
     await connectDB();
-    const { surveyId, answers, ipAddress } = await req.json();
+    const { surveyId, answers } = await req.json();
 
     // Find the survey by its ID
     const survey = await surveyModel.findById(surveyId);
@@ -14,6 +14,13 @@ export async function PUT(req, res) {
       return NextResponse.json(
         { error: true, message: "Survey not found" },
         { status: 404 }
+      );
+    }
+
+    if (survey.status === "inactive") {
+      return NextResponse.json(
+        { error: true, message: "Survey closed" },
+        { status: 401 }
       );
     }
 
@@ -32,9 +39,6 @@ export async function PUT(req, res) {
         question.answers.push(answer);
       })
     );
-
-    // update the access list
-    survey.accessList.push(ipAddress);
 
     // Save the updated survey
     await survey.save();

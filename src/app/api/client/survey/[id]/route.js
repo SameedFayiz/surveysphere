@@ -6,9 +6,8 @@ export async function GET(req, { params }) {
   const id = params.id;
   const { searchParams } = new URL(req.url);
   const title = searchParams.get("title");
-  const ipAddress = searchParams.get("ip");
 
-  if (!ipAddress && !title) {
+  if (!title) {
     return NextResponse.json(
       { error: true, message: "Invalid request" },
       { status: 404 }
@@ -25,12 +24,9 @@ export async function GET(req, { params }) {
         { status: 404 }
       );
     }
-    if (survey.accessList.includes(ipAddress)) {
+    if (survey.status === "inactive") {
       return NextResponse.json(
-        {
-          error: true,
-          message: "Access denied",
-        },
+        { error: true, message: "Survey closed" },
         { status: 401 }
       );
     }
