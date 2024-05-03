@@ -29,7 +29,7 @@ export default function DashboardLayout({ children }) {
               onClick={() => {
                 router.back();
               }}
-              className="hidden fixed top-20 md:top-36 left-0 z-50 sm:flex justify-center items-center opacity-50 bg-black text-white rounded-e-2xl p-2 ps-0 hover:scale-105 hover:opacity-100
+              className="hidden fixed top-20 md:top-36 left-0 z-50 md:flex justify-center items-center opacity-50 bg-black text-white rounded-e-2xl p-2 ps-0 hover:scale-105 hover:opacity-100
            transition-all duration-200 ease-in-out"
             >
               <NavigateBefore className="text-base md:text-[30px]" />

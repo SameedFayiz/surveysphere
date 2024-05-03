@@ -79,7 +79,7 @@ export default function Page() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 items-end">
               <TextField
-                className="pointer-events-none rounded dark:[&_*]:!text-white dark:!bg-gray-900 dark:[&_fieldset]:!border-gray-500 dark:[&_fieldset]:hover:!border-black
+                className="min-w-64 pointer-events-none rounded dark:[&_*]:!text-white dark:!bg-gray-900 dark:[&_fieldset]:!border-gray-500 dark:[&_fieldset]:hover:!border-black
                  dark:[&>div.Mui-focused_fieldset]:!border-white [&_fieldset]:transition-all [&_fieldset]:duration-300"
                 InputProps={{
                   endAdornment: (
@@ -121,7 +121,7 @@ export default function Page() {
             </div>
             <div className="flex flex-col sm:flex-row gap-4 items-end">
               <TextField
-                className="pointer-events-none rounded dark:[&_*]:!text-white dark:!bg-gray-900 dark:[&_fieldset]:!border-gray-500 dark:[&_fieldset]:hover:!border-black
+                className="min-w-64 pointer-events-none rounded dark:[&_*]:!text-white dark:!bg-gray-900 dark:[&_fieldset]:!border-gray-500 dark:[&_fieldset]:hover:!border-black
                  dark:[&>div.Mui-focused_fieldset]:!border-white [&_fieldset]:transition-all [&_fieldset]:duration-300"
                 InputProps={{
                   endAdornment: (

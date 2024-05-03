@@ -121,21 +121,26 @@ const DataDisplay = ({ data, userId, getData, dataLoading, setAlert }) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Confirm delete</DialogTitle>
+        <DialogTitle id="alert-dialog-title" className="text-base md:text-lg">
+          Confirm delete
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText
+            id="alert-dialog-description"
+            className="text-sm md:text-base"
+          >
             Please confirm if you want to delete this survey?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <button
-            className="bg-slate-400 text-white p-2 rounded-md"
+            className="bg-slate-400 text-white p-2 rounded-md text-sm md:text-base"
             onClick={handleClose}
           >
             Cancel
           </button>
           <button
-            className="bg-red-600 text-white p-2 rounded-md"
+            className="bg-red-600 text-white p-2 rounded-md text-sm md:text-base"
             onClick={() => {
               handleDelete(open);
               handleClose();

@@ -8,6 +8,9 @@ import {
   Alert,
   CircularProgress,
   FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
   useMediaQuery,
 } from "@mui/material";
@@ -39,6 +42,7 @@ export default function Page() {
   const [formData, setFormData] = useState({
     surveyTitle: "",
     description: "",
+    category: "",
   });
   // qData stores an array of object of questions data
   const [qData, setQData] = useState([]);
@@ -66,18 +70,20 @@ export default function Page() {
 
   // Change event handler for survey name and desciption input fields
   const handleChange = (e) => {
-    let ele = e.target.id;
-    let value = e.target.value;
-    if (ele === "surveyTitle") {
+    let { id, value, name } = e.target;
+    if (name === "category") {
+      id = "category";
+    }
+    if (id === "surveyTitle") {
       if (value.length > nameCharLimit) {
         value = value.slice(0, nameCharLimit);
       }
-    } else if (ele === "description") {
+    } else if (id === "description") {
       if (value.length > descCharLimit) {
         value = value.slice(0, descCharLimit);
       }
     }
-    let tmp = { ...formData, [ele]: value };
+    let tmp = { ...formData, [id]: value };
     setFormData(tmp);
   };
 
@@ -119,6 +125,7 @@ export default function Page() {
         questions: tmp,
         user: data?.user?.id,
       };
+      console.log(sendData);
       try {
         let sendReq = await fetch("/api/survey", {
           method: "POST",
@@ -240,6 +247,77 @@ export default function Page() {
                 />
               )}
             />
+            <FormControl
+              required
+              className="sm:w-[300px]"
+              size={`${mediumWidth ? "" : "small"}`}
+            >
+              <InputLabel className="dark:!text-white" id="category-label">
+                Category
+              </InputLabel>
+              <Select
+                className="dark:text-white dark:[&>fieldset]:!border-white dark:[&>fieldset]:hover:!border-black
+                     dark:[&_svg]:text-white [&>fieldset]:transition-all [&>fieldset]:duration-300"
+                labelId="category-label"
+                id="category"
+                name="category"
+                value={formData.category}
+                label="Category"
+                onChange={handleChange}
+              >
+                <MenuItem value={"Education"}>Education</MenuItem>
+                <MenuItem value={"Lifestyle and Habits"}>
+                  Lifestyle and Habits
+                </MenuItem>
+                <MenuItem value={"Health and Wellness"}>
+                  Health and Wellness
+                </MenuItem>
+                <MenuItem value={"Consumer Preferences"}>
+                  Consumer Preferences
+                </MenuItem>
+                <MenuItem value={"Technology Usage"}>Technology Usage</MenuItem>
+                <MenuItem value={"Work and Career"}>Work and Career</MenuItem>
+                <MenuItem value={"Environmental Practices"}>
+                  Environmental Practices
+                </MenuItem>
+                <MenuItem value={"Social Engagement"}>
+                  Social Engagement
+                </MenuItem>
+                <MenuItem value={"Entertainment Preferences"}>
+                  Entertainment Preferences
+                </MenuItem>
+                <MenuItem value={"Financial Habits"}>Financial Habits</MenuItem>
+                <MenuItem value={"Travel and Leisure"}>
+                  Travel and Leisure
+                </MenuItem>
+                <MenuItem value={"Relationships and Family"}>
+                  Relationships and Family
+                </MenuItem>
+                <MenuItem value={"Community Involvement"}>
+                  Community Involvement
+                </MenuItem>
+                <MenuItem value={"General Demographics"}>
+                  General Demographics
+                </MenuItem>
+                <MenuItem value={"Political Views"}>Political Views</MenuItem>
+                <MenuItem value={"Cultural Interests"}>
+                  Cultural Interests
+                </MenuItem>
+                <MenuItem value={"Personal Development"}>
+                  Personal Development
+                </MenuItem>
+                <MenuItem value={"Media Consumption"}>
+                  Media Consumption
+                </MenuItem>
+                <MenuItem value={"Food and Beverage Preferences"}>
+                  Food and Beverage Preferences
+                </MenuItem>
+                <MenuItem value={"Sports and Recreation"}>
+                  Sports and Recreation
+                </MenuItem>
+                <MenuItem value={"Other"}>Other</MenuItem>
+              </Select>
+            </FormControl>
           </div>
         </FormControl>
       </section>

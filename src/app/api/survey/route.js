@@ -14,8 +14,9 @@ export async function POST(req, res) {
   }
   try {
     await connectDB();
-    const { user, surveyTitle, description, questions } = await req.json();
-    if (!surveyTitle || !description || !questions || !user) {
+    const { user, surveyTitle, description, category, questions } =
+      await req.json();
+    if (!surveyTitle || !description || !category || !questions || !user) {
       return NextResponse.json(
         { error: true, message: "Invalid request" },
         { status: 500 }
@@ -26,9 +27,9 @@ export async function POST(req, res) {
       user,
       surveyTitle,
       description,
+      category,
       questions,
       status: "active",
-      category: "not-set", //TODO: implement category
     });
     return NextResponse.json({ error: false, survey }, { status: 200 });
   } catch (error) {

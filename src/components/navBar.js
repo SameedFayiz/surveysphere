@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
 import DarkModeButton from "./darkModeButton";
 import {
-  Avatar,
   BottomNavigation,
   BottomNavigationAction,
-  Divider,
   Paper,
   useMediaQuery,
 } from "@mui/material";

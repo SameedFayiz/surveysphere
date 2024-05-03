@@ -1,3 +1,4 @@
 @echo off
-START npm run dev
+start npm run dev
+start chrome http://localhost:3000 
 pause
