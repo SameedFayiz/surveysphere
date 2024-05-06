@@ -78,7 +78,6 @@ export async function PUT(req, { params }) {
   try {
     await connectDB();
     const updates = await req.json();
-    console.log(updates);
     if (!updates) {
       return NextResponse.json(
         { error: true, message: "Invalid request" },

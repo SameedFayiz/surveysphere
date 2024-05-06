@@ -175,7 +175,7 @@ const DataDisplay = ({ data, userId, getData, dataLoading, setAlert }) => {
       {mediumWidth ? (
         <TableContainer
           component={Paper}
-          className="w-full h-full rounded-none dark:bg-gray-900 dark:p-2 dark:pt-0 min-h-96"
+          className="w-full h-full rounded-none dark:bg-gray-900 dark:p-2 dark:pt-0 min-h-[500px]"
         >
           <Table className="dark:[&_*]:text-white dark:bg-gray-800 dark:border-b-2 dark:border-gray-900 rounded-lg">
             <TableHead>
@@ -201,7 +201,7 @@ const DataDisplay = ({ data, userId, getData, dataLoading, setAlert }) => {
               {dataLoading ? (
                 <TableRow>
                   <TableCell colSpan={4}>
-                    <div className="flex justify-center items-center my-[10%]">
+                    <div className="flex justify-center items-center my-[15%]">
                       <CircularProgress
                         className="dark:[&_*]:!text-yellow-500"
                         size={40}
@@ -221,7 +221,7 @@ const DataDisplay = ({ data, userId, getData, dataLoading, setAlert }) => {
               ) : (
                 <TableRow>
                   <TableCell colSpan={4}>
-                    <div className="flex justify-center items-center my-[10%] text-lg !text-gray-400">
+                    <div className="flex justify-center items-center my-[15%] text-lg !text-gray-400">
                       No survey found! Create a survey to view here
                     </div>
                   </TableCell>

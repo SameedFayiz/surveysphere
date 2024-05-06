@@ -125,7 +125,6 @@ export default function Page() {
         questions: tmp,
         user: data?.user?.id,
       };
-      console.log(sendData);
       try {
         let sendReq = await fetch("/api/survey", {
           method: "POST",

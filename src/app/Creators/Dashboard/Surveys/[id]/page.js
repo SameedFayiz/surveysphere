@@ -285,7 +285,7 @@ export default function Page({ params }) {
       ) : (
         <div className="w-full h-screen flex justify-center items-center flex-col">
           <CircularProgress className="dark:[&_*]:!text-yellow-500" size={40} />
-          <p className="dark:text-yellow-500">Loading</p>
+          <p className="text-blue-600 dark:text-yellow-500">Loading</p>
         </div>
       )}
     </main>

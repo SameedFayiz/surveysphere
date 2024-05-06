@@ -39,7 +39,9 @@ export const authOptions = {
 
           return {
             id: user._id,
-            name: user.firstName + user.lastName,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            name: user.firstName + " " + user.lastName,
             email: user.email,
           };
         } else {
