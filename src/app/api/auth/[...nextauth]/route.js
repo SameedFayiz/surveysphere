@@ -52,8 +52,22 @@ export const authOptions = {
   ],
   session: { strategy: "jwt", maxAge: 24 * 60 * 60 },
   callbacks: {
-    jwt: async ({ token, user, session }) => {
+    jwt: async ({ token, user, trigger, session }) => {
       // console.log("Token callback", token, user);
+      if (trigger === "update") {
+        console.log("->", token, session);
+        if (session?.name) {
+          token.name = session.name;
+        }
+        if (session?.email) {
+          token.email = session.email;
+        }
+        token.user = {
+          ...token.user,
+          ...session,
+        };
+        return token;
+      }
       if (user) {
         return { ...token, user };
       }

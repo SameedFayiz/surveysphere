@@ -23,14 +23,20 @@ export async function PUT(req, { params }) {
       );
     }
 
-    const user = await userModel.findByIdAndUpdate(id, { ...updates });
+    const user = await userModel.findByIdAndUpdate(
+      id,
+      { ...updates },
+      {
+        new: true,
+      }
+    );
     if (!user) {
       return NextResponse.json(
         { error: true, message: "User not found" },
         { status: 404 }
       );
     }
-    return NextResponse.json({ error: false, survey }, { status: 200 });
+    return NextResponse.json({ error: false, user }, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json(
