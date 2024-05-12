@@ -212,11 +212,15 @@ export default function Page({ params }) {
                   ref={linkEleRef}
                   href={`${window?.location?.origin}/${path
                     .split("/")
-                    .pop()}?title=${encodeURI(surveyData?.surveyTitle)}`}
+                    .pop()}?title=${encodeURIComponent(
+                    surveyData?.surveyTitle
+                  )}`}
                 >
                   {`${window?.location?.origin}/${path
                     .split("/")
-                    .pop()}?title=${encodeURI(surveyData?.surveyTitle)}`}
+                    .pop()}?title=${encodeURIComponent(
+                    surveyData?.surveyTitle
+                  )}`}
                 </Link>
                 <button
                   onClick={(e) => {

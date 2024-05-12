@@ -16,7 +16,10 @@ export async function GET(req, { params }) {
   try {
     await connectDB();
 
-    const survey = await surveyModel.findById(id);
+    const survey = await surveyModel.findOne({
+      _id: id,
+      user: session.user.id,
+    });
     if (!survey) {
       return NextResponse.json(
         { error: true, message: "Survey not found" },

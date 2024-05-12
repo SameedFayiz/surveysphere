@@ -231,7 +231,7 @@ const DataDisplay = ({ data, userId, getData, dataLoading, setAlert }) => {
           </Table>
         </TableContainer>
       ) : (
-        <div className="h-full flex flex-col gap-4 justify-center items-center px-4 md:px-10 dark:bg-gray-900 pb-4">
+        <div className="h-full flex flex-col gap-4 justify-start items-center px-4 md:px-10 dark:bg-gray-900 pb-4">
           {dataLoading ? (
             <CircularProgress
               className="dark:[&_*]:!text-yellow-500"

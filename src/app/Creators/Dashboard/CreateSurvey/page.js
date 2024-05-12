@@ -121,7 +121,9 @@ export default function Page() {
         ele.qNo = i + 1;
       });
       let sendData = {
-        ...formData,
+        surveyTitle: formData.surveyTitle.trim(),
+        description: formData.description.trim(),
+        category: formData.category,
         questions: tmp,
         user: data?.user?.id,
       };

@@ -37,7 +37,9 @@ export default function Page() {
       (async () => {
         try {
           let myRequest = await fetch(
-            `/api/client/survey/${params.surveyId}?title=${title}`,
+            `/api/client/survey/${params.surveyId}?title=${encodeURIComponent(
+              title
+            )}`,
             {
               method: "GET",
               headers: {
@@ -104,7 +106,9 @@ export default function Page() {
         throw myRequest;
       }
 
-      router.push(`/FormSubmitted?callBackUrl=${path}?title=${title}`);
+      router.push(
+        `/FormSubmitted?callBackUrl=${path}?title=${encodeURIComponent(title)}`
+      );
     } catch (error) {
       setAlert({
         display: true,
