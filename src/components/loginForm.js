@@ -9,14 +9,15 @@ import {
   TextField,
 } from "@mui/material";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-export default function LoginForm({ mediumWidth, params }) {
+export default function LoginForm({ mediumWidth }) {
   const [error, setError] = useState("");
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const params = useSearchParams();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
