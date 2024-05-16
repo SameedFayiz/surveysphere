@@ -47,7 +47,7 @@ const DataDisplay = ({ data, userId, getData, dataLoading, setAlert }) => {
           {wrapText(row.surveyTitle)}
         </TableCell>
         <TableCell className="group-hover:text-blue-500" align="center">
-          0
+          {row.questions[0]?.answers.length}
         </TableCell>
         <TableCell className="group-hover:text-blue-500" align="center">
           {new Date(row.createdAt).toLocaleString()}
@@ -180,8 +180,8 @@ const DataDisplay = ({ data, userId, getData, dataLoading, setAlert }) => {
           <Table className="dark:[&_*]:text-white dark:bg-gray-800 dark:border-b-2 dark:border-gray-900 rounded-lg">
             <TableHead>
               <TableRow className="dark:[&_*]:text-yellow-500">
-                <TableCell className="text-lg font-semibold pl-10 ">
-                  Surveys
+                <TableCell className="text-lg font-semibold pl-10">
+                  Surveys{`  (${data ? data.length : 0})`}
                 </TableCell>
                 <TableCell className="text-lg font-semibold" align="center">
                   No. of Responses
@@ -232,6 +232,9 @@ const DataDisplay = ({ data, userId, getData, dataLoading, setAlert }) => {
         </TableContainer>
       ) : (
         <div className="h-full flex flex-col gap-4 justify-start items-center px-4 md:px-10 dark:bg-gray-900 pb-4">
+          <p className="w-full text-lg font-semibold pt-2 text-gray-800 dark:text-yellow-500">
+            Surveys{`  (${data ? data.length : 0})`}
+          </p>
           {dataLoading ? (
             <CircularProgress
               className="dark:[&_*]:!text-yellow-500"

@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from "react";
 import DarkModeButton from "./darkModeButton";
 import {
@@ -6,7 +7,7 @@ import {
   Paper,
   useMediaQuery,
 } from "@mui/material";
-import { Person2, Poll } from "@mui/icons-material";
+import { Close, Dehaze, Person2, Poll } from "@mui/icons-material";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
@@ -152,3 +153,52 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
 };
 
 export default Navbar;
+
+export const LandingNav = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="relative">
+      {open ? (
+        <Close
+          className="cursor-pointer"
+          onClick={() => {
+            setOpen(false);
+          }}
+        />
+      ) : (
+        <Dehaze
+          className="cursor-pointer"
+          onClick={() => {
+            setOpen(true);
+          }}
+        />
+      )}
+      {open ? (
+        <div className="absolute top-10 right-0 flex flex-col gap-4 w-32 text-right">
+          <Link
+            href="/Creators/Dashboard"
+            className="text-sm text-gray-800 font-medium dark:text-white hover:text-yellow-500 dark:hover:text-yellow-400 transition-all
+                 duration-300 ease-in-out"
+          >
+            Browse Surveys
+          </Link>
+          <Link
+            href="/Creators/Dashboard"
+            className="text-sm text-gray-800 font-medium dark:text-white hover:text-yellow-500 dark:hover:text-yellow-400 transition-all
+                 duration-300 ease-in-out"
+          >
+            Contact us
+          </Link>
+          <Link
+            href="/Creators/Dashboard"
+            className="text-sm text-gray-800 font-medium dark:text-white hover:text-yellow-500 dark:hover:text-yellow-400 transition-all
+                 duration-300 ease-in-out"
+          >
+            FAQs
+          </Link>
+        </div>
+      ) : null}
+    </div>
+  );
+};

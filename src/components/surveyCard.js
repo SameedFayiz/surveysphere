@@ -26,7 +26,7 @@ const SurveyCard = ({ data, loading, handleClick, deleteAction }) => {
       <CardContent className="p-0 pb-2">
         <p className="text-sm sm:text-base">
           <span className="dark:!text-yellow-500">No. of Responses</span>
-          {": " + (data?.responseCount || 0)}
+          {": " + (data?.questions[0]?.answers.length || "0")}
         </p>
       </CardContent>
       <CardActions className="p-0">
