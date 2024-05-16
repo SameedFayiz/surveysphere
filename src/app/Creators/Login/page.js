@@ -43,7 +43,7 @@ export default function Page() {
           <section className="hidden lg:flex lg:w-1/2 h-full relative overflow-hidden">
             <Image
               className={darkMode ? "bg-gray-800" : "bg-gray-100"}
-              src={darkMode ? "/loginBannerDark.svg" : "/loginBanner.svg"}
+              src={"/loginBanner.svg"}
               alt="Login banner"
               fill={true}
             />

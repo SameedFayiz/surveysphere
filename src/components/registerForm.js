@@ -179,8 +179,8 @@ export default function RegisterForm({ mediumWidth, myAlert, setAlert }) {
             <button
               disabled={loading || (myAlert.display && myAlert.error)}
               type="submit"
-              className="flex items-center justify-center gap-2 w-full p-2 text-sm md:text-base bg-blue-600 hover:bg-blue-800 bg-opacity-100 disabled:bg-opacity-55 dark:bg-yellow-500 dark:hover:bg-yellow-600 text-white
-               dark:text-black font-medium border border-gray-500  dark:border-black rounded-lg hover:scale-[1.02] transition-all ease-in-out duration-200"
+              className="flex items-center justify-center gap-2 w-full p-2 text-sm md:text-base bg-opacity-100 disabled:bg-opacity-55 bg-yellow-500 hover:bg-yellow-600 text-white
+               dark:text-black font-medium rounded-lg hover:scale-[1.02] transition-all ease-in-out duration-200"
             >
               Register
               {loading ? (
@@ -203,7 +203,7 @@ export default function RegisterForm({ mediumWidth, myAlert, setAlert }) {
             Already have an account?{" "}
             <Link
               href={"/Creators/Login"}
-              className="text-blue-600 hover:text-blue-800 dark:text-yellow-500 dark:hover:text-yellow-600 transition-all duration-200 ease-in-out"
+              className="text-yellow-500 hover:text-yellow-600 transition-all duration-200 ease-in-out"
             >
               Sign in now
             </Link>
